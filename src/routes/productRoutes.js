@@ -2,10 +2,15 @@ const express = require('express');
 const router = express.Router();
 const productController = require('../controllers/productController');
 
+// Rota para a página inicial que redireciona para /products
+router.get('/', (req, res) => {
+  res.redirect('/products');
+});
 
 // Rutas para productos
 router.get('/products', productController.showProducts);
 router.get('/products/:productId', productController.showProductById);
+
 
 // Rutas para dashboard/administración
 router.get('/dashboard', productController.showProducts); // Reutiliza showProducts para el dashboard
