@@ -22,36 +22,34 @@ const getNavBar = () => `
         </ul>
     </nav>`;
 
-    const getProductCards = () => {
-        // Array estático de produtos para exemplo
+const getProductCards = (products) => {
+    let html = '<div style="display: flex; flex-wrap: wrap; justify-content: center;">';
+    for (let product of products) {
+        html += `
+            <div style="width: 300px; margin: 10px; text-align: center;">
+                <img src="${product.Imagen}" alt="${product.Nombre}" style="width: 100%; height: auto;">
+                <h3>${product.Nombre}</h3>
+                <p>${product.Descripcion}</p>
+                <p>${product.Precio}€</p>
+                <a href="/products/${product._id}">Ver</a>
+            </div>
+        `;
+    }
+    html += '</div>';
+    return html;
+};
+
+// Controlador
+exports.showProducts = async (req, res) => {
+    try {
+        // Usar a lista estática de produtos para exemplo
         const products = [
             { _id: 1, Nombre: 'Zapatos con clase', Descripcion: 'Cómodos y elegantes', Precio: 39.99, Imagen: 'images/img4.jpg' },
             { _id: 2, Nombre: 'Camiseta', Descripcion: 'Casual y moderna', Precio: 19.99, Imagen: 'images/img2.jpg' },
             { _id: 3, Nombre: 'Pantalón', Descripcion: 'Atrévete con estos', Precio: 49.99, Imagen: 'images/img3.jpg' },
             { _id: 4, Nombre: 'Gorra', Descripcion: 'Estilo único', Precio: 29.99, Imagen: 'images/img1.jpg' },
         ];
-    
-        let html = '<div style="display: flex; flex-wrap: wrap; justify-content: center;">';
-        for (let product of products) {
-            html += `
-            <div style="width: 300px; margin: 10px; text-align: center;">
-                <img src="/${product.Imagen}" alt="${product.Nombre}" style="width: 100%; height: auto;">
-                <h3>${product.Nombre}</h3>
-                <p>${product.Descripcion}</p>
-                <p>${product.Precio}€</p>
-                <a href="/products/${product._id}">Ver</a>
-            </div>
-            `;
-        }
-        html += '</div>';
-        return html;
-    };
-
-// Controlador
-exports.showProducts = async (req, res) => {
-    try {
-        // Usamos getProductCards sem passar produtos, já que agora é estático
-        const productCards = getProductCards();
+        const productCards = getProductCards(products);
         const html = baseHtml + getNavBar() + productCards + '</body></html>';
         res.send(html);
     } catch (error) {
@@ -101,4 +99,48 @@ exports.updateProduct = async (req, res) => {
 exports.deleteProduct = async (req, res) => {
     await Product.findByIdAndDelete(req.params.productId);
     res.redirect('/dashboard');
+};
+
+const showProductsByCategory = async (req, res, category) => {
+    try {
+        // Lista de todos os produtos
+        const allProducts = [
+            { _id: 1, Nombre: 'Zapatos con clase', Descripcion: 'Cómodos y elegantes', Precio: 39.99, Imagen: 'images/img4.jpg', Categoria: 'Zapatos' },
+            { _id: 2, Nombre: 'Camiseta', Descripcion: 'Casual y moderna', Precio: 19.99, Imagen: 'images/img2.jpg', Categoria: 'Camisetas' },
+            { _id: 3, Nombre: 'Pantalón', Descripcion: 'Atrévete con estos', Precio: 49.99, Imagen: 'images/img3.jpg', Categoria: 'Pantalones' },
+            { _id: 4, Nombre: 'Gorra', Descripcion: 'Estilo único', Precio: 29.99, Imagen: 'images/img1.jpg', Categoria: 'Accesorios' },
+        ];
+
+        // Filtrar os produtos pela categoria desejada
+        const filteredProducts = allProducts.filter(product => product.Categoria === category);
+
+        // Verificar se há produtos na categoria especificada
+        if (filteredProducts.length === 0) {
+            res.send('Nenhum produto encontrado nesta categoria');
+            return;
+        }
+
+        // Renderizar os produtos na página
+        const productCards = getProductCards(filteredProducts);
+        const html = baseHtml + getNavBar() + productCards + '</body></html>';
+        res.send(html);
+    } catch (error) {
+        res.status(500).send('Server Error: ' + error.message);
+    }
+};
+
+exports.showCamisetas = (req, res) => {
+    showProductsByCategory(req, res, 'Camisetas');
+};
+
+exports.showPantalones = (req, res) => {
+    showProductsByCategory(req, res, 'Pantalones');
+};
+
+exports.showZapatos = (req, res) => {
+    showProductsByCategory(req, res, 'Zapatos');
+};
+
+exports.showAccesorios = (req, res) => {
+    showProductsByCategory(req, res, 'Accesorios');
 };

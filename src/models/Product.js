@@ -1,12 +1,14 @@
 const mongoose = require('mongoose');
 
 const ProductSchema = new mongoose.Schema({
-  Nombre: String,
-  Descripcion: String,
-  Imagen: String, // Cambiado de Image a String para almacenar URLs
-  Categoría: { type: String, enum: ['Camisetas', 'Pantalones', 'Zapatos', 'Accesorios'] },
-  Talla: { type: String, enum: ['XS', 'S', 'M', 'L', 'XL'] },
-  Precio: Number
+    name: String,
+    description: String,
+    image: String,
+    category: { type: String, enum: ['Camisetas', 'Pantalones', 'Zapatos', 'Accesorios'] },
+    size: { type: String, enum: ['XS', 'S', 'M', 'L', 'XL'] },
+    price: Number
 }, { timestamps: true });
 
-module.exports = mongoose.model('Product', ProductSchema);
+const Product = mongoose.model('Product', ProductSchema);
+
+module.exports = Product;
