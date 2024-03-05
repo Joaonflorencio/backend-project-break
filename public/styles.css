@@ -42,3 +42,294 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
+/* Reset CSS para remover margens, paddings e estilos padrão do navegador */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4; /* Cor de fundo geral para o corpo da página */
+    color: #3d3a3a; /* Cor do texto */
+}
+
+/* Estilos da barra de navegação */
+nav {
+    background-color: #000; /* Fundo preto para a barra de navegação */
+    padding: 10px 20px; /* Espaçamento interno */
+}
+
+nav ul {
+    list-style: none; /* Remove marcadores da lista */
+    display: flex; /* Ativa o flexbox para os itens da lista */
+    justify-content: center; /* Centraliza os itens da lista na horizontal */
+    align-items: center; /* Centraliza os itens na vertical */
+    gap: 20px; /* Espaço entre os itens da lista */
+}
+
+nav ul li a {
+    text-decoration: none; /* Remove o sublinhado dos links */
+    color: white; /* Cor do texto dos links */
+    padding: 8px 15px; /* Espaçamento interno dos links para aumentar a área de clique */
+    transition: color 0.3s ease; /* Animação suave para mudanças de cor */
+}
+
+nav ul li a:hover,
+nav ul li a:focus {
+    color: #cccccc; /* Muda a cor do texto do link ao passar o mouse ou focar */
+}
+
+/* Reset básico para os elementos */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Container geral dos cartões */
+.product-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Estilos dos cartões de produto */
+.product-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Isso distribuirá o espaço igualmente entre os elementos internos */
+    height: 100%; /* Define uma altura para garantir que todos os cartões tenham a mesma altura */
+    margin: 10px;
+    padding: 15px; /* Espaçamento interno */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra para estética */
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Estilo para a imagem para garantir que todas as imagens tenham a mesma altura */
+.product-card img {
+    max-height: 200px; /* Ajuste conforme necessário */
+    object-fit: cover; /* Garante que a imagem cubra a área designada sem perder as proporções */
+    margin-bottom: 10px; /* Espaço abaixo da imagem */
+}
+
+/* Espaço para o nome do produto e descrição */
+.product-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza o texto */
+    min-height: 100px; /* Espaço mínimo para o texto, ajuste conforme necessário */
+}
+
+/* Botão 'Ver' */
+.product-card a {
+    margin-top: auto; /* Isso empurrará o botão 'Ver' para a parte inferior do cartão */
+    text-decoration: none;
+    color: white;
+    background-color: #0056b3;
+    padding: 10px 20px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.product-card a:hover {
+    background-color: #003d82;
+}
+
+/* Estilo para o preço para garantir que ele fique centralizado */
+.product-card .price {
+    display: block; /* Faz com que o preço seja tratado como um bloco */
+    text-align: center; /* Centraliza o texto do preço */
+    font-size: 1.5em; /* Aumenta o tamanho da fonte do preço */
+    font-weight: bold; /* Torna o preço em negrito */
+    color: #555; /* Define a cor do preço */
+    margin: 8px 0; /* Espaçamento acima e abaixo do preço */
+}
+
+/* Botão 'Ver' com largura limitada */
+.product-card a {
+    width: auto; /* O botão terá a largura do conteúdo, não do contêiner */
+    padding: 10px 20px; /* Espaçamento interno para o botão */
+    border-radius: 4px; /* Bordas arredondadas para o botão */
+    background-color: #0056b3; /* Cor de fundo do botão */
+    color: white; /* Cor do texto do botão */
+    text-decoration: none; /* Remove sublinhado do texto do botão */
+    margin: 10px auto; /* Margem automática para centralização horizontal */
+    display: block; /* Faz o elemento 'a' se comportar como um bloco */
+}
+
+.original-price {
+    text-decoration: line-through; /* Riscado */
+    color: #777; /* Cor cinza */
+}
+
+.discount {
+    color: red; /* Cor vermelha */
+    font-weight: bold; /* Negrito */
+    margin-left: 5px; /* Espaço entre o preço original e o desconto */
+	font-size: 0.75em !important; /* Reduz o tamanho da fonte do desconto */
+		
+}
+
+.discounted-price {
+    color: green; /* Cor verde */
+    font-weight: bold; /* Negrito */
+    display: block; /* Novo preço em uma nova linha */
+    margin-top: 5px; /* Espaço acima do novo preço */
+}
+
+.product-card {
+    /* suas propriedades existentes */
+    padding: 20px; /* Aumente o preenchimento para mais espaço dentro do cartão */
+}
+
+.product-card h3 {
+    /* suas propriedades existentes */
+    margin-bottom: 0px; /* Aumente o espaço abaixo do nome do produto */
+    font-size: 1.2em; /* Ajuste o tamanho da fonte conforme necessário */
+}
+
+/* Para o bloco de preço */
+.product-card .price-info {
+    text-align: center; /* Centraliza o conteúdo do bloco de preço */
+    margin-bottom: 30px; /* Espaço abaixo do bloco de preço */
+}
+
+.product-card .price-info .original-price,
+.product-card .price-info .discount,
+.product-card .price-info .discounted-price {
+    font-size: 1.2em; /* Aumenta o tamanho da fonte dos preços */
+    display: block; /* Coloca cada preço em sua própria linha */
+}
+
+/* Adicionando espaço entre o preço original e o preço com desconto */
+.product-card .price-info .discounted-price {
+    margin-top: 5px; /* Espaço acima do preço com desconto */
+}
+
+/* Ajuste as propriedades para o botão "Ver" */
+.product-card a {
+    display: block; /* Ocupa a linha inteira */
+    width: auto; /* A largura será a do conteúdo */
+    padding: 10px 20px; /* Espaçamento interno */
+    margin: 0 auto 10px; /* Margem automática para centralização e espaço abaixo */
+    font-size: 1em; /* Ajuste o tamanho da fonte conforme necessário */
+    border-radius: 5px; /* Bordas arredondadas levemente */
+}
+
+/* Considere adicionar um hover mais suave ao botão */
+.product-card a:hover {
+    background-color: #004a99; /* Uma cor um pouco mais escura para o hover */
+}
+/* Estilo para a descrição do produto */
+.product-card p {
+    margin-bottom: 10px;
+	 /* Ajuste o valor para aumentar o espaçamento */
+}
+
+/* Estilo para o preço do produto */
+.product-card .original-price {
+    /* Suas outras propriedades existentes */
+    margin-bottom: 10px; /* Ajuste o valor para aumentar o espaçamento */
+}
+
+.product-card h3,
+.product-card p {
+    text-align: center; /* Centraliza o texto horizontalmente */
+    width: 100%; /* Garante que os elementos ocupem toda a largura disponível para centralizar corretamente o texto */
+    margin: 5px 0; /* Adiciona um pequeno espaço acima e abaixo para evitar que os textos fiquem muito juntos */
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #a1afe2; /* Altere para a cor de cinza desejada */
+    color: #333;
+    /* as demais propriedades existentes */
+}
+
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.login-box {
+    background: #fff;
+    padding: 2em;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-box h2 {
+    color: #333;
+    margin-bottom: 1em;
+    text-align: center;
+}
+
+.form-control {
+    margin-bottom: 1em;
+    position: relative;
+}
+
+.form-control input {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.form-control label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 15px;
+    pointer-events: none;
+    color: #888;
+    transition: 0.2s;
+}
+
+.form-control input:valid + label,
+.form-control input:focus + label {
+    top: -20px;
+    left: 10px;
+    font-size: 0.85em;
+    color: #555;
+}
+
+.forgot-password {
+    display: block;
+    margin-bottom: 1em;
+    color: #888;
+    text-align: right;
+    text-decoration: none;
+}
+
+.forgot-password:hover {
+    color: #555;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    background: #d6001c;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+button:hover {
+    background: #bb0018;
+}

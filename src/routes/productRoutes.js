@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const productController = require('../controllers/productController');
+const authController = require('../controllers/authController');
 
 // Rota para a página inicial que redireciona para /products
 router.get('/', (req, res) => {
@@ -21,6 +22,12 @@ router.get('/zapatos', productController.showZapatos);
 
 // Rota para exibir accesorios
 router.get('/accesorios', productController.showAccesorios);
+
+router.get('/products/:productId', productController.showProductPage);
+
+router.get('/login', authController.showLoginForm);
+router.post('/login', authController.processLogin);
+router.get('/login', authController.showLoginForm);
 
 // Rotas para dashboard/administración
 router.get('/dashboard', productController.showProducts); // Reutiliza showProducts para o dashboard
