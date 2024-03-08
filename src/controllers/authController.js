@@ -61,10 +61,10 @@ const authController = {
                 res.redirect('/dashboard');
             } else {
                 // Credenciais inválidas
-                res.status(401).send('Credenciais inválidas');
+                res.status(401).send('Credenciales no válidas');
             }
         } catch (error) {
-            res.status(500).send('Erro interno');
+            res.status(500).send('Error interno');
         }
     },
 

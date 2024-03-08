@@ -12,30 +12,23 @@ router.get('/', (req, res) => {
 router.get('/products', productController.showProducts);
 router.get('/products/:productId', productController.showProductById);
 
-// Rota para exibir camisetas
+// Rotas para autenticação
+router.get('/login', authController.showLoginForm);
+router.post('/login', authController.processLogin); // Certifique-se de que processLogin está definido em authController
+router.get('/logout', authController.processLogout); // Certifique-se de que processLogout está definido em authController
+
+// Rotas para exibir produtos por categoria
 router.get('/camisetas', productController.showCamisetas);
-
-// Rota para exibir pantalones
 router.get('/pantalones', productController.showPantalones);
-// Rota para exibir zapatos
 router.get('/zapatos', productController.showZapatos);
-
-// Rota para exibir accesorios
 router.get('/accesorios', productController.showAccesorios);
 
-router.get('/products/:productId', productController.showProductPage);
-
-router.get('/login', authController.showLoginForm);
-router.post('/login', authController.processLogin);
-router.get('/login', authController.showLoginForm);
-
-// Rotas para dashboard/administración
+// Rotas para o dashboard/administração
 router.get('/dashboard', productController.showProducts); // Reutiliza showProducts para o dashboard
 router.get('/dashboard/new', productController.showNewProduct);
 router.post('/dashboard', productController.createProduct);
-router.get('/dashboard/:productId', productController.showProductById); // Reutiliza showProductById para detalle em dashboard
 router.get('/dashboard/:productId/edit', productController.showEditProduct);
-router.post('/dashboard/:productId', productController.updateProduct); // Usamos POST para atualizar devido a limitações de HTML
-router.post('/dashboard/:productId/delete', productController.deleteProduct); // Usamos POST para deletar
+router.post('/dashboard/:productId', productController.updateProduct); // Certifique-se de que updateProduct está definido em productController
+router.post('/dashboard/:productId/delete', productController.deleteProduct); // Certifique-se de que deleteProduct está definido em productController
 
 module.exports = router;

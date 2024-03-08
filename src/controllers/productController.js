@@ -1,6 +1,6 @@
 const Product = require('../models/Product');
 
-// Funciones auxiliares para generar HTML
+// Funções auxiliares para gerar HTML
 const baseHtml = `<!DOCTYPE html>
 <html lang="es">
 <head>
@@ -22,38 +22,37 @@ const getNavBar = () => `
             <li><a href="/login">Login</a></li>
         </ul>
     </nav>`;
-
     const getProductCards = (products) => {
         let html = '<div class="product-container">';
         for (let product of products) {
-            const precioDescuento = (product.Precio - (product.Precio * (product.Descuento / 100))).toFixed(2);
-            html += `
-                <div class="product-card">
-                    <img src="${product.Imagen}" alt="${product.Nombre}">
-                    <h3>${product.Nombre}</h3>
-                    <p>${product.Descripcion}</p>
-                    <div class="price-info">
-                        <span class="original-price">${product.Precio.toFixed(2)}€</span>
-                        <span class="discount">(-${product.Descuento}%)</span>
-                        <span class="discounted-price">${precioDescuento}€</span>
+            // Assegure que price e discount são números antes de tentar calcular o desconto
+            if (typeof product.price === 'number' && typeof product.discount === 'number') {
+                const precioDescuento = (product.price - (product.price * (product.discount / 100))).toFixed(2);
+                html += `
+                    <div class="product-card">
+                        <img src="${product.image}" alt="${product.name}" class="product-image">
+                        <h3 class="product-name">${product.name}</h3>
+                        <p class="product-description">${product.description}</p>
+                        <div class="price-info">
+                            <span class="original-price">${product.price.toFixed(2)}€</span>
+                            <span class="discount">(-${product.discount}%)</span>
+                            <span class="discounted-price">${precioDescuento}€</span>
+                        </div>
+                        <a href="${product.image}" target="_blank">Ver</a>
                     </div>
-                    <a href="${product.Imagen}" target="_blank">Ver</a> <!-- Link para abrir a imagem em uma nova guia -->
-                </div>
-            `;
+                `;
+            } else {
+                console.error('Erro: Produto sem preço ou desconto definido', product);
+            }
         }
         html += '</div>';
         return html;
-    };
+    };;
+    
 // Controlador
 exports.showProducts = async (req, res) => {
     try {
-        // Usar a lista estática de produtos para exemplo
-        const products = [
-            { _id: 1, Nombre: 'Zapatos con clase', Descripcion: 'Cómodos y elegantes / Nº 42', Precio: 39.99, Descuento: 20, Imagen: 'images/img4.jpg' },
-            { _id: 2, Nombre: 'Camiseta', Descripcion: 'Casual y moderna / Talla: S ', Precio: 19.99, Descuento: 10, Imagen: 'images/img2.jpg' },
-            { _id: 3, Nombre: 'Pantalón', Descripcion: 'Atrévete con estos / Talla : M', Precio: 49.99, Descuento: 10, Imagen: 'images/img3.jpg' },
-            { _id: 4, Nombre: 'Gorra', Descripcion: 'Estilo único', Precio: 29.99, Descuento:5, Imagen: 'images/img1.jpg' },
-        ];
+        const products = await Product.find({}); // Busca todos os produtos no banco de dados
         const productCards = getProductCards(products);
         const html = baseHtml + getNavBar() + productCards + '</body></html>';
         res.send(html);
@@ -64,7 +63,7 @@ exports.showProducts = async (req, res) => {
 
 exports.showProductById = async (req, res) => {
     const product = await Product.findById(req.params.productId);
-    const productCard = getProductCards([product]); // Usamos el mismo método para un producto
+    const productCard = getProductCards([product]); // Usamos o mesmo método para um produto
     const html = baseHtml + getNavBar() + productCard + '</body></html>';
     res.send(html);
 };
@@ -72,7 +71,7 @@ exports.showProductById = async (req, res) => {
 exports.showNewProduct = (req, res) => {
     const formHtml = baseHtml + getNavBar() + `
         <form action="/dashboard" method="post">
-            <!-- Campos del formulario -->
+            <!-- Campos do formulário -->
             <input type="submit" value="Subir Producto">
         </form>
     ` + '</body></html>';
@@ -80,25 +79,41 @@ exports.showNewProduct = (req, res) => {
 };
 
 exports.createProduct = async (req, res) => {
-    const newProduct = new Product(req.body);
-    await newProduct.save();
-    res.redirect('/dashboard');
+    try {
+        if (!req.body.name || !req.body.price) {
+            res.status(400).send('Nome e preço do produto são obrigatórios');
+            return;
+        }
+        const newProduct = new Product(req.body);
+        await newProduct.save();
+        res.redirect('/dashboard');
+    } catch (error) {
+        res.status(500).send('Server Error: ' + error.message);
+    }
+};
+
+exports.updateProduct = async (req, res) => {
+    try {
+        if (!req.body.name || !req.body.price) {
+            res.status(400).send('Nome e preço do produto são obrigatórios');
+            return;
+        }
+        await Product.findByIdAndUpdate(req.params.productId, req.body);
+        res.redirect('/dashboard');
+    } catch (error) {
+        res.status(500).send('Server Error: ' + error.message);
+    }
 };
 
 exports.showEditProduct = async (req, res) => {
     const product = await Product.findById(req.params.productId);
     const formHtml = baseHtml + getNavBar() + `
         <form action="/dashboard/${product._id}" method="post">
-            <!-- Campos del formulario con valores predeterminados del producto -->
+            <!-- Campos do formulário com valores pré-definidos do produto -->
             <input type="submit" value="Actualizar Producto">
         </form>
     ` + '</body></html>';
     res.send(formHtml);
-};
-
-exports.updateProduct = async (req, res) => {
-    await Product.findByIdAndUpdate(req.params.productId, req.body);
-    res.redirect('/dashboard');
 };
 
 exports.deleteProduct = async (req, res) => {
@@ -106,51 +121,31 @@ exports.deleteProduct = async (req, res) => {
     res.redirect('/dashboard');
 };
 
-const showProductsByCategory = async (req, res, category) => {
-    try {
-        // Lista de todos os produtos
-        const allProducts = [
-            { _id: 1, Nombre: 'Zapatos con clase', Descripcion: 'Cómodos y elegantes / Nº 42', Precio: 39.99, Descuento: 20, Imagen: 'images/img4.jpg', Categoria: 'Zapatos' },
-           { _id: 2, Nombre: 'Camiseta', Descripcion: 'Casual y moderna / Talla: S ', Precio: 19.99, Descuento: 10, Imagen: 'images/img2.jpg', Categoria: 'Camisetas' },
-           { _id: 3, Nombre: 'Pantalón', Descripcion: 'Atrévete con estos / Talla : M', Precio: 49.99, Descuento: 10, Imagen: 'images/img3.jpg', Categoria: 'Pantalones' },
-           { _id: 4, Nombre: 'Gorra', Descripcion: 'Estilo único', Precio: 29.99, Descuento:5, Imagen: 'images/img1.jpg', Categoria: 'Accesorios' },
-];
+const showProductsByCategoryMiddleware = (category) => {
+    return async (req, res) => {
+        try {
+            // A chave da consulta aqui deve corresponder exatamente ao campo definido no seu esquema de Produto
+            const products = await Product.find({ category: category }); // A chave "category" deve ser a mesma que no esquema
 
-          
+            if (products.length === 0) {
+                res.send('No se encontraron productos en esta categoría');
+                return;
+            }
 
-        // Filtrar os produtos pela categoria desejada
-        const filteredProducts = allProducts.filter(product => product.Categoria === category);
-
-        // Verificar se há produtos na categoria especificada
-        if (filteredProducts.length === 0) {
-            res.send('Nenhum produto encontrado nesta categoria');
-            return;
+            const productCards = getProductCards(products);
+            const html = baseHtml + getNavBar() + productCards + '</body></html>';
+            res.send(html);
+        } catch (error) {
+            res.status(500).send('Error del servidor: ' + error.message);
         }
-
-        // Renderizar os produtos na página
-        const productCards = getProductCards(filteredProducts);
-        const html = baseHtml + getNavBar() + productCards + '</body></html>';
-        res.send(html);
-    } catch (error) {
-        res.status(500).send('Server Error: ' + error.message);
-    }
+    };
 };
 
-exports.showCamisetas = (req, res) => {
-    showProductsByCategory(req, res, 'Camisetas');
-};
-
-exports.showPantalones = (req, res) => {
-    showProductsByCategory(req, res, 'Pantalones');
-};
-
-exports.showZapatos = (req, res) => {
-    showProductsByCategory(req, res, 'Zapatos');
-};
-
-exports.showAccesorios = (req, res) => {
-    showProductsByCategory(req, res, 'Accesorios');
-};
+// Funções que usam o middleware para as categorias específicas
+exports.showCamisetas = showProductsByCategoryMiddleware('Camisetas');
+exports.showPantalones = showProductsByCategoryMiddleware('Pantalones');
+exports.showZapatos = showProductsByCategoryMiddleware('Zapatos');
+exports.showAccesorios = showProductsByCategoryMiddleware('Accesorios');
 
 exports.showProductPage = async (req, res) => {
     try {
