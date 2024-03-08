@@ -1,39 +1,51 @@
-Tienda de Ropa
+# Tienda de ropa
+
 Esta aplicación es una tienda de ropa con un catálogo de productos y un panel de administración para el administrador. Los productos se guardan en una base de datos MongoDB en Atlas.
 
-Tecnologías Utilizadas
-Node.js
-Express.js
-MongoDB
-bcrypt.js (para el hashing de contraseñas)
-HTML
-CSS
-Instrucciones de Uso
-Configuración del Entorno
-Clonación del Repositorio: Clona este repositorio en tu máquina local.
+## Tecnologías Utilizadas
 
-bash
-Copy code
-git clone https://github.com/tu_usuario/tu_repositorio.git
-Instalación de Dependencias: Instala las dependencias del proyecto utilizando el siguiente comando:
+- Node.js
+- Express.js
+- MongoDB
+- bcrypt.js (para el hashing de contraseñas)
+- HTML
+- CSS
+- Javascript
 
-Copy code
-npm install
-Variables de Entorno: Crea un archivo .env en la raíz del proyecto y define las siguientes variables de entorno:
+## Instrucciones de Uso
 
-plaintext
-Copy code
+### Configuración del Entorno
+
+1. **Clonación del Repositorio**: Clona este repositorio en tu máquina local.
+
+    ```bash
+    git clone https://github.com/tu_usuario/tu_repositorio.git
+    ```
+
+2. **Instalación de Dependencias**: Instala las dependencias del proyecto utilizando el siguiente comando:
+
+    ```bash
+    npm install
+    ```
+
+### Variables de Entorno
+
+Crea un archivo `.env` en la raíz del proyecto y define las siguientes variables de entorno:
+
+```plaintext
 MONGO_URI=tu_uri_de_MongoDB
 SESSION_SECRET=tu_secreto_de_sesión
-Iniciar la Aplicación
+
+## Iniciar la Aplicación
+
 Para iniciar la aplicación, ejecuta el siguiente comando:
 
-bash
-Copy code
+```bash
 npm start
+
 La aplicación estará disponible en http://localhost:5666.
 
-Funcionalidades
+### Funcionalidades
 Catálogo de Productos: Los usuarios pueden navegar por el catálogo de productos y ver detalles individuales de cada producto.
 
 Inicio de Sesión: Los usuarios pueden iniciar sesión utilizando su dirección de correo electrónico y contraseña.
@@ -44,18 +56,13 @@ Seguridad: Las contraseñas de los usuarios se almacenan de forma segura utiliza
 
 Persistencia de Datos: Los datos de productos se almacenan en una base de datos MongoDB.
 
-Controladores y Rutas
-El proyecto utiliza los siguientes controladores y rutas:
+Archivos Relevantes
+package.json: Este archivo contiene la lista de dependencias del proyecto, así como scripts para iniciar la aplicación y ejecutar pruebas.
 
-productController.js: Controlador para operaciones relacionadas con productos.
-authController.js: Controlador para operaciones de autenticación de usuarios.
-productRoutes.js: Definición de rutas para las operaciones de productos.
-authRoutes.js: Definición de rutas para las operaciones de autenticación.
-Seed de Productos
-El archivo seedProducts.js contiene una función para añadir productos de ejemplo a la base de datos MongoDB.
+index.js: El archivo principal del servidor donde se inicia la aplicación Express y se configuran las rutas y middleware.
 
-Modelo de Usuario
-El archivo User.js define el modelo de usuario utilizado para almacenar información de los usuarios en la base de datos.
+.env: Archivo de configuración que contiene variables de entorno sensibles como la URI de MongoDB y el secreto de sesión.
 
-Modelo de Producto
-El archivo Product.js define el modelo de producto utilizado para almacenar información de los productos en la base de datos
+models/Product.js: Define el modelo de datos para los productos de la tienda.
+
+controllers/productController.js: Contiene la lógica de negocio relacionada con los productos, como la creación, edición y eliminación de productos.
