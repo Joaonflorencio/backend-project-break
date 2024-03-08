@@ -35,13 +35,14 @@ Crea un archivo `.env` en la raíz del proyecto y define las siguientes variable
 ```plaintext
 MONGO_URI=tu_uri_de_MongoDB
 SESSION_SECRET=tu_secreto_de_sesión
-
-## Iniciar la Aplicación
+```
+### Iniciar la Aplicación
 
 Para iniciar la aplicación, ejecuta el siguiente comando:
 
 ```bash
 npm start
+```
 
 La aplicación estará disponible en http://localhost:5666.
 
