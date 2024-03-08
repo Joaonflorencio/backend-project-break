@@ -12,9 +12,8 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    // Adicione outros campos conforme necessário
+    
 });
-
 // Você pode adicionar métodos ao schema se necessário, por exemplo:
 userSchema.methods.comparePassword = function(candidatePassword) {
     return bcrypt.compareSync(candidatePassword, this.password);

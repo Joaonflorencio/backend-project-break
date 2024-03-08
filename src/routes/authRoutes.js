@@ -3,6 +3,9 @@ const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authController');
 
+router.get('/registro', authController.showRegistrationForm);
+router.post('/registro', authController.processRegistration);
+
 // Rota para exibir o formulário de login
 router.get('/login', authController.showLoginForm);
 

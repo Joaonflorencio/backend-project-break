@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs');
-const User = require('../models/user'); // Certifique-se de substituir pelo modelo de usuário correto
+const User = require('../models/User');
 
 const baseHtml = `
     <!DOCTYPE html>
@@ -12,7 +12,6 @@ const baseHtml = `
     </head>
     <body>
 `;
-
 
 const getNavBar = () => {
     return `
@@ -44,10 +43,66 @@ const authController = {
                     </form>
                 </div>
             </div>
-            </body>
-            </html>
+        </body>
+        </html>
         `;
         res.send(loginFormHtml);
+    },
+
+    showRegistrationForm: (req, res) => {
+        const registrationFormHtml = `
+            ${baseHtml}
+            ${getNavBar()}
+            <div class="login-container"> <!-- Reutilize a classe de estilo do container de login -->
+                <div class="login-box"> <!-- Reutilize a classe de estilo da caixa de login -->
+                    <h2>Registra tu cuenta</h2>
+                    <form action="/registro" method="post">
+                        <div class="form-control">
+                            <input type="email" id="email" name="email" required>
+                            <label for="email">Email*</label>
+                        </div>
+                        <div class="form-control">
+                            <input type="password" id="password" name="password" required>
+                            <label for="password">Contraseña*</label>
+                        </div>
+                        <div class="form-control">
+                            <input type="password" id="confirm-password" name="confirm-password" required>
+                            <label for="confirm-password">Confirmar Contraseña*</label>
+                        </div>
+                        <button type="submit">Registrar</button>
+                    </form>
+                </div>
+            </div>
+        </body>
+        </html>
+        `;
+        res.send(registrationFormHtml);
+    },
+
+    processRegistration: async (req, res) => {
+        try {
+            const { email, password } = req.body;
+
+            // Verifica se o email já está cadastrado
+            const existingUser = await User.findOne({ email });
+            if (existingUser) {
+                return res.status(400).send('O email já está em uso');
+            }
+
+            // Hash da senha antes de salvar no banco de dados
+            const hashedPassword = await bcrypt.hash(password, 10);
+
+            // Cria um novo usuário com o email e a senha fornecidos
+            const newUser = new User({ email, password: hashedPassword });
+
+            // Salva o novo usuário no banco de dados
+            await newUser.save();
+
+            res.status(201).send('Usuario registrado exitosamente');
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Error interno al registrar usuario');
+        }
     },
 
     processLogin: async (req, res) => {

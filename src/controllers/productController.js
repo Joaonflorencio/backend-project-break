@@ -20,6 +20,7 @@ const getNavBar = () => `
             <li><a href="/zapatos">Zapatos</a></li>
             <li><a href="/accesorios">Accesorios</a></li>
             <li><a href="/login">Login</a></li>
+            <li><a href="/registro">Registro</a></li>
         </ul>
     </nav>`;
     const getProductCards = (products) => {
