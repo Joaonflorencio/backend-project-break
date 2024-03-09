@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs');
-const User = require('../../user');
+const User = require('../users/user');
 
 const baseHtml = `
     <!DOCTYPE html>

@@ -6,7 +6,7 @@ const productController = require('./src/controllers/productController'); // Adi
 const productRoutes = require('./src/routes/productRoutes'); // Use esta importação para as rotas
 const authRoutes = require('./src/routes/authRoutes');
 const app = express();
-const port = 5673;
+const port = 5674;
 require('dotenv').config();
 
 connectDB();
