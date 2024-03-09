@@ -5,14 +5,11 @@ const MONGO_URI = process.env.MONGO_URI;
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-
+    await mongoose.connect(MONGO_URI);
     console.log('MongoDB Connected...');
   } catch (err) {
     console.error(err.message);
+    // Encerrar o processo com falha
     process.exit(1);
   }
 };
