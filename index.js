@@ -6,8 +6,9 @@ const methodOverride = require('method-override');
 const productController = require('./src/controllers/productController'); // Adicione esta linha
 const productRoutes = require('./src/routes/productRoutes'); // Use esta importação para as rotas
 const authRoutes = require('./src/routes/authRoutes');
+const apiRoutes = require('./src/routes/apiRoutes');
 const app = express();
-const port = 5675;
+const port = 5676;
 require('dotenv').config();
 
 connectDB();
@@ -23,6 +24,7 @@ app.get('/', productController.showProducts);
 // Use as rotas de produtos importadas
 app.use('/', productRoutes);
 app.use('/', authRoutes);
+app.use('/', apiRoutes)
 // Servir arquivos estáticos deve vir após as definições de rotas
 app.use(express.static('public'));
 
