@@ -9,4 +9,4 @@ router.post('/api/products', apiController.createProductApi)
 router.put('/api/products/:_id', apiController.updateProductApi)
 router.delete('/api/products/:_id/delete', apiController.deleteProductApi)
 
-module.exports = router;
+module.exports = router;      
